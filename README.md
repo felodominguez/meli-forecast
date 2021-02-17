@@ -2,7 +2,7 @@
 
 ### La solución se encuentra desplegada de Heroku bajo la URL:
 
-http://test.com
+http://meli-forecast.herokuapp.com/swagger-ui.html
 
 ## Descripción del problema
 En una galaxia lejana, existen tres civilizaciones. Vulcanos, Ferengis y Betasoides. Cada
@@ -18,7 +18,7 @@ horario. Su distancia con respecto al sol es de 500Km.
 * El planeta Betasoide se desplaza con una velocidad angular de 3 grados/día en sentido
 horario. Su distancia con respecto al sol es de 2000Km.
 * El planeta Vulcano se desplaza con una velocidad angular de 5 grados/día en sentido
-anti­horario, su distancia con respecto al sol es de 1000Km.
+antihorario, su distancia con respecto al sol es de 1000Km.
 * Todas las órbitas son circulares.
 Cuando los tres planetas están alineados entre sí y a su vez alineados con respecto al sol, el
 sistema solar experimenta un período de sequía.
@@ -70,18 +70,26 @@ La solución cuenta con un componente de tareas programadas para la calendarizac
 ### Modo de uso:
 #### Generación de predicciones:
 
-@Post http://localhost:8080/job/schedule
+---
+@Post http://meli-forecast.herokuapp.com/job/schedule
 
-Servicio que permite agendar una tarea automática para una fecha y hora determinada. Al momento de la ejecución de la tarea el sistema realizará las predicciones impactando estas en la base de datos de la solución. 
+Servicio que permite agendar una tarea automática para una fecha y hora determinada. Al momento de la ejecución de la tarea el sistema realizará las predicciones impactando estas en la base de datos de la solución.
 
-@Post http://localhost:8080/job/now
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/task-job-scheduler-controller
+
+---
+@Post http://meli-forecast.herokuapp.com/job/now
 
 Servicio que permite la ejecución de las predicciones en tiempo real.
 
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/task-job-scheduler-controller
 
+---
 #### Consulta de datos:
 
-@GET http://localhost:8080/services/days
+---
+@GET http://meli-forecast.herokuapp.com/services/days
+
 
 Servicio que permite consultar los datos obtenidos de las predicciones. La información incluida en la respuesta es la siguiente:
 
@@ -91,10 +99,17 @@ Servicio que permite consultar los datos obtenidos de las predicciones. La infor
 * Total de dias restantes.
 * Listá de días de máximos de lluvia.
 
-@GET http://localhost:8080/services/days/{day}
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/weather-controller
+
+---
+
+@GET http://meli-forecast.herokuapp.com/services/days/{day}
 
 Servicio que permite consultar las predicciones climáticas para un día en particular.
 
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/weather-controller
+
+---
 
 ### Documentación de referencia (Inglés)
 

@@ -1,0 +1,35 @@
+version: 1.0
+released: 2021-02-15
+
+# Angulo inicial de Vulcanos
+initVulcanos: 0
+
+# Angulo inicial de Ferengis
+initFerengis: 0
+
+# Angulo inicial de Betasoides
+initBetasoides: 0
+
+# Cantidad de años de prediccion
+year: 10
+
+# Avamce diario de Vulcanos
+avanceVulcanos: 5
+
+# Avance diario de Ferengis
+avanceFerengis: -1
+
+# Avance diario de Betasoides
+avanceBetasoides: -3
+
+# Distancia entre el Vulcanos y el Sol
+distanceVulcanos: 1000
+
+# Distancia entre Ferengis y el Sol
+distanceFerengis: 500
+
+# Distancia entre el Betasoides y el Sol
+distanceBetasoides: 2000
+
+# Indica si se imprimen en el log los resultados
+logData: true

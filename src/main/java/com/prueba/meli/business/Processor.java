@@ -185,7 +185,7 @@ public class Processor {
             } else {
                 throw new Exception("Empty Data");
             }
-            System.out.println("data" + data.size());
+
         } catch (Exception e) {
             logger.error("Error " + e.getMessage(), e);
             throw e;

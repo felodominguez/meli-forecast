@@ -47,8 +47,7 @@ public class ProcessJob extends QuartzJobBean {
             processor.calculate(initVulcanos, initFerengis, initBetasoides, year, avanceVulcanos,
                     avanceFerengis, avanceBetasoides, distanceVulcanos, distanceFerengis, distanceBetasoides,logData!=null?logData:false);
             Long end= new Date().getTime();
-            System.out.println("Ini "+start);
-            System.out.println("End "+end);
+
             logger.info("************Finish in "+(end-start)/1000+" Seconds)*******************");
         } catch (JobExecutionException e) {
             logger.error("Error Executing " + e.getMessage(), e);

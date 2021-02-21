@@ -1,0 +1,19 @@
+target/
+.idea
+.mvn
+*.iws
+*.iml
+*.cmd
+
+## Maven:
+*mvnw*
+/.mvn/
+/mvnw
+/mvnw.bat
+mvnw.cmd
+/log/
+*.log*
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+release.properties

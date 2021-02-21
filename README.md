@@ -2,7 +2,7 @@
 
 ### La solución se encuentra desplegada de Heroku bajo la URL:
 
-http://meli-forecast.herokuapp.com/swagger-ui.html
+http://meli-forecast.herokuapp.com/swagger-ui/index.html
 
 ## Descripción del problema
 En una galaxia lejana, existen tres civilizaciones. Vulcanos, Ferengis y Betasoides. Cada
@@ -71,18 +71,18 @@ La solución cuenta con un componente de tareas programadas para la calendarizac
 #### Generación de predicciones:
 
 ---
-@Post http://meli-forecast.herokuapp.com/job/schedule
+@Post http://meli-forecast.herokuapp.com/scheduler/schedule
 
 Servicio que permite agendar una tarea automática para una fecha y hora determinada. Al momento de la ejecución de la tarea el sistema realizará las predicciones impactando estas en la base de datos de la solución.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/task-job-scheduler-controller
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/job-controller/scheduleTaskUsingPOST
 
 ---
-@Post http://meli-forecast.herokuapp.com/job/now
+@Post http://meli-forecast.herokuapp.com/scheduler/now
 
 Servicio que permite la ejecución de las predicciones en tiempo real.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/task-job-scheduler-controller
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/job-controller/nowUsingPOST
 
 ---
 #### Consulta de datos:
@@ -99,15 +99,18 @@ Servicio que permite consultar los datos obtenidos de las predicciones. La infor
 * Total de dias restantes.
 * Listá de días de máximos de lluvia.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/weather-controller
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/weather-controller/getWeatherInfoUsingGET
 
 ---
 
-@GET http://meli-forecast.herokuapp.com/services/days/{day}
+@GET http://meli-forecast.herokuapp.com/services/day?day=
 
 Servicio que permite consultar las predicciones climáticas para un día en particular.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui.html#/weather-controller
+Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/weather-controller/getDayInfoUsingGET
+
+---
+#### Modelo de datos de los servicios:
 
 ---
 
@@ -118,12 +121,14 @@ For further reference, please consider the following sections:
 * [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
 * [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.2/maven-plugin/reference/html/)
 * [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.4.2/maven-plugin/reference/html/#build-image)
-* [Java Mail Sender](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#boot-features-email)
 * [Quartz Scheduler](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#boot-features-quartz)  
 * [Spring Web](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#boot-features-developing-web-applications)
 * [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#boot-features-jpa-and-spring-data)
+* [Swagger](https://swagger.io/docs/specification/about/)
+* [Heroku](https://devcenter.heroku.com/categories/reference)
+  
 
-### Guias  (Inglés)
+### Guías (Inglés)
 
 The following guides illustrate how to use some features concretely:
 

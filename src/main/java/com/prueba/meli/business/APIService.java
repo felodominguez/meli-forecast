@@ -61,33 +61,34 @@ public class APIService {
         }
     }
 
-    public DayTO getDay(Long dayNumber) throws Exception {
+    public DayTO getDay(Long dayNumber)  {
         try {
             DayTO to = null;
             Day d = dayRepository.findByDay(dayNumber);
             if (d != null) {
-                PlanetTO pTO;
-                DayPlanet pd;
-                to = new DayTO();
-                to.setDeterminant(d.getDeterminant());
-                to.setWeather(d.getWeather());
-                to.setPerimeter(d.getPerimeter());
-                to.setDay(d.getDay());
-                pd = d.getDayPlanetList().stream()
-                        .filter(dayPlanet -> "VUL".equals(dayPlanet.getPlanet().getCode()))
-                        .findAny()
-                        .orElse(null);
-                to.setVulcanos(new PlanetTO(pd.getAngle(), pd.getxPos(), pd.getyPos()));
-                pd = d.getDayPlanetList().stream()
-                        .filter(dayPlanet -> "FER".equals(dayPlanet.getPlanet().getCode()))
-                        .findAny()
-                        .orElse(null);
-                to.setFerengis(new PlanetTO(pd.getAngle(), pd.getxPos(), pd.getyPos()));
-                pd = d.getDayPlanetList().stream()
-                        .filter(dayPlanet -> "BET".equals(dayPlanet.getPlanet().getCode()))
-                        .findAny()
-                        .orElse(null);
-                to.setBetasoides(new PlanetTO(pd.getAngle(), pd.getxPos(), pd.getyPos()));
+                to = d.toTO();
+//                PlanetTO pTO;
+//                DayPlanet pd;
+//                to = new DayTO();
+//                to.setDeterminant(d.getDeterminant());
+//                to.setWeather(d.getWeather());
+//                to.setPerimeter(d.getPerimeter());
+//                to.setDay(d.getDay());
+//                pd = d.getDayPlanetList().stream()
+//                        .filter(dayPlanet -> "VUL".equals(dayPlanet.getPlanet().getCode()))
+//                        .findAny()
+//                        .orElse(null);
+//                to.setVulcanos(new PlanetTO(pd.getAngle(), pd.getxPos(), pd.getyPos()));
+//                pd = d.getDayPlanetList().stream()
+//                        .filter(dayPlanet -> "FER".equals(dayPlanet.getPlanet().getCode()))
+//                        .findAny()
+//                        .orElse(null);
+//                to.setFerengis(new PlanetTO(pd.getAngle(), pd.getxPos(), pd.getyPos()));
+//                pd = d.getDayPlanetList().stream()
+//                        .filter(dayPlanet -> "BET".equals(dayPlanet.getPlanet().getCode()))
+//                        .findAny()
+//                        .orElse(null);
+//                to.setBetasoides(new PlanetTO(pd.getAngle(), pd.getxPos(), pd.getyPos()));
             }
 
             return to;

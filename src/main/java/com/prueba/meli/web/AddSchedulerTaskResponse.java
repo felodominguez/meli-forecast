@@ -1,13 +1,20 @@
 package com.prueba.meli.web;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(value = "Respuesta de la agenda de la tarea.", description = "Respuesta de la agenda de la tarea")
 public class AddSchedulerTaskResponse {
+    @ApiModelProperty(value = "Resultado del proceso.",example = "true")
     private boolean success;
+    @ApiModelProperty(value = "Identificador de la tarea.",example = "6b679bbc-e85b")
     private String jobId;
+    @ApiModelProperty(value = "Grupo que se le asignó a la tarea.",example = "task-jobs")
     private String jobGroup;
+    @ApiModelProperty(value = "Mensaje descriptivo del resultado.",example = "Tarea agendada con éxito!")
     private String message;
 
     public AddSchedulerTaskResponse(boolean success, String message) {

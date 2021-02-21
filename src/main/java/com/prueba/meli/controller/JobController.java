@@ -2,10 +2,16 @@ package com.prueba.meli.controller;
 
 
 import com.prueba.meli.business.Processor;
+import com.prueba.meli.error.DateOutOfBoundException;
+import com.prueba.meli.error.ErrorResponse;
+import com.prueba.meli.error.RecordNotFoundException;
 import com.prueba.meli.job.ProcessJob;
-import com.prueba.meli.web.AddSchedulerTaskRequest;
+import com.prueba.meli.web.GeneralTaskRequest;
 import com.prueba.meli.web.AddSchedulerTaskResponse;
 import com.prueba.meli.to.DayTO;
+import com.prueba.meli.web.SchedulerTaskRequest;
+import com.prueba.meli.web.TaskRequest;
+import io.swagger.annotations.*;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,10 +30,11 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/job")
-public class TaskJobSchedulerController {
+@RequestMapping("/scheduler")
+@Api(value = "Controlador de predicciones", description = "Controlador para la generación de predicciones", produces = "application/json")
+public class JobController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TaskJobSchedulerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobController.class);
 
     @Autowired
     private Scheduler scheduler;
@@ -35,44 +42,54 @@ public class TaskJobSchedulerController {
     @Autowired
     private Processor processor;
 
+    @ApiOperation(notes = "Servicio para agendar una tarea",produces = "application/json", value = "Servicio para agendar la tarea de predicción")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = AddSchedulerTaskResponse.class),
+            @ApiResponse(code = 400, message = "Parámetros inválidos", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "Error general", response = ErrorResponse.class)
+    })
     @PostMapping("/schedule")
-    public ResponseEntity<AddSchedulerTaskResponse> scheduleTask(@Valid @RequestBody AddSchedulerTaskRequest scheduleTaskRequest) {
+    public ResponseEntity<AddSchedulerTaskResponse> scheduleTask(
+            @ApiParam(name = "Parámetros de agenda y predicciones", value = "Parámetros para la calendarización de las predicciones", required = true)
+            @Valid @RequestBody SchedulerTaskRequest scheduleTaskRequest) throws SchedulerException {
         try {
             ZonedDateTime dateTime = ZonedDateTime.of(scheduleTaskRequest.getDateTime(), scheduleTaskRequest.getTimeZone());
             if (dateTime.isBefore(ZonedDateTime.now())) {
-                AddSchedulerTaskResponse addSchedulerTaskResponse = new AddSchedulerTaskResponse(false,
-                        "La fecha y hora debe ser posterior a la actual");
-                return ResponseEntity.badRequest().body(addSchedulerTaskResponse);
+                throw new DateOutOfBoundException("La fecha y hora debe ser posterior a la actual");
             }
+
+
 
             JobDetail jobDetail = buildJobDetail(scheduleTaskRequest);
             Trigger trigger = buildJobTrigger(jobDetail, dateTime);
             scheduler.scheduleJob(jobDetail, trigger);
 
+
             AddSchedulerTaskResponse addSchedulerTaskResponse = new AddSchedulerTaskResponse(true,
                     jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Tarea agendada con éxito!");
             return ResponseEntity.ok(addSchedulerTaskResponse);
-        } catch (SchedulerException ex) {
-            logger.error("Error agendando tarea. "+ex.getMessage(), ex);
 
-            AddSchedulerTaskResponse addSchedulerTaskResponse = new AddSchedulerTaskResponse(false,
-                    "Error agendando la tarea.!");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(addSchedulerTaskResponse);
+        } catch (SchedulerException ex) {
+            logger.error("Error agendando tarea. " + ex.getMessage(), ex);
+            throw ex;
         }
+
     }
 
     @PostMapping("/now")
-    public ResponseEntity<Map<Long, DayTO>> now(@Valid @RequestBody AddSchedulerTaskRequest scheduleTaskRequest) throws Exception {
-        try {
-
-            return ResponseEntity.ok(processor.calculate(scheduleTaskRequest.getInitVulcanos(), scheduleTaskRequest.getInitFerengis(), scheduleTaskRequest.getInitBetasoides(), scheduleTaskRequest.getYear(), scheduleTaskRequest.getAvanceVulcanos(), scheduleTaskRequest.getAvanceFerengis(), scheduleTaskRequest.getAvanceBetasoides(), scheduleTaskRequest.getDistanceVulcanos(), scheduleTaskRequest.getDistanceFerengis(), scheduleTaskRequest.getDistanceBetasoides(), scheduleTaskRequest.getLogData()));
-        } catch (Exception ex) {
-            logger.error("Error scheduling task", ex);
-            throw ex;
-        }
+    @ApiOperation(notes = "Servicio para ejecutar la tarea de predicciones", value = "Servicio que ejecuta la generación de predicciones",produces = "application/json")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = AddSchedulerTaskResponse.class),
+            @ApiResponse(code = 400, message = "Parámetros inválidos", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "Error general", response = ErrorResponse.class)
+    })
+    public ResponseEntity<Map<Long, DayTO>> now(
+            @ApiParam(name = "Parámetros de predicciones", value = "Parámetros para la generación de las predicciones", required = true)
+            @Valid @RequestBody TaskRequest generalTaskRequest) throws Exception {
+      return ResponseEntity.ok(processor.calculate(generalTaskRequest.getInitVulcanos(), generalTaskRequest.getInitFerengis(), generalTaskRequest.getInitBetasoides(), generalTaskRequest.getYear(), generalTaskRequest.getAvanceVulcanos(), generalTaskRequest.getAvanceFerengis(), generalTaskRequest.getAvanceBetasoides(), generalTaskRequest.getDistanceVulcanos(), generalTaskRequest.getDistanceFerengis(), generalTaskRequest.getDistanceBetasoides(), generalTaskRequest.getLogData()));
     }
 
-    private JobDetail buildJobDetail(AddSchedulerTaskRequest scheduleRequest) {
+    private JobDetail buildJobDetail(GeneralTaskRequest scheduleRequest) {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("initVulcanos", scheduleRequest.getInitVulcanos());
         jobDataMap.put("initFerengis", scheduleRequest.getInitFerengis());
@@ -84,12 +101,11 @@ public class TaskJobSchedulerController {
         jobDataMap.put("distanceVulcanos", scheduleRequest.getDistanceVulcanos());
         jobDataMap.put("distanceFerengis", scheduleRequest.getDistanceFerengis());
         jobDataMap.put("distanceBetasoides", scheduleRequest.getDistanceBetasoides());
-        jobDataMap.put("distanceBetasoides", scheduleRequest.getDistanceBetasoides());
         jobDataMap.put("logData", scheduleRequest.getLogData());
 
         return JobBuilder.newJob(ProcessJob.class)
                 .withIdentity(UUID.randomUUID().toString(), "task-jobs")
-                .withDescription("Send Email Job")
+                .withDescription("Generación de predicciones")
                 .usingJobData(jobDataMap)
                 .storeDurably()
                 .build();

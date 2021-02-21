@@ -2,6 +2,8 @@ package com.prueba.meli.web;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prueba.meli.to.DayTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
@@ -11,13 +13,21 @@ import java.util.List;
  * @author FD
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(value = "Respuesta con el resumen del pronóstico", description = "Respuesta con el resumen del pronóstico")
 public class DaysResponse {
+    @ApiModelProperty(value = "Días de sequía",position = 2)
     private Long droughtDays;
+    @ApiModelProperty(value = "Días de lluvia",position = 3)
     private Long rainyDays;
+    @ApiModelProperty(value = "Días de condiciones óptimas",position = 4)
     private Long optimalDays;
+    @ApiModelProperty(value = "Días normales",position = 5)
     private Long normalDays;
+    @ApiModelProperty(value = "Días de máximas presipitaciones",position = 6)
     private List<DayTO> rainiestDays;
+    @ApiModelProperty(value = "Resultado del proceso.",example = "true",position = 0)
     private boolean success;
+    @ApiModelProperty(value = "Mensaje descriptivo del resultado.",example = "Respuesta exitosa",position = 1)
     private String message;
 
     public DaysResponse(boolean success, String message) {

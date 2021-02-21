@@ -1,6 +1,7 @@
 package com.prueba.meli.to;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.prueba.meli.model.Day;
 import com.prueba.meli.model.DayPlanet;
@@ -8,6 +9,8 @@ import com.prueba.meli.model.Planet;
 import com.prueba.meli.model.Weather;
 import com.prueba.meli.utils.MathUtils;
 import com.prueba.meli.utils.WeatherUtils;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,17 +21,28 @@ import java.util.ArrayList;
  * @author FD
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(value = "Información del día.", description = "Información del día")
 public class DayTO implements Serializable {
 
+    @ApiModelProperty(value = "Día de la predicción",example = "26",position = 0)
     private Long day;
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Double determinant;
+    @ApiModelProperty(value = "Perímetro (En caso de formar un triángulo)",example = "6262.300354241048",position = 1)
     private Double perimeter;
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Weather weather;
+    @ApiModelProperty(value = "Clima del día",example = "Sequía",position = 1)
     private String weatherDesctiption;
-    private Boolean maxPerimeter;
 
+
+    @ApiModelProperty(value = "Datos del planeta Vulcano",position = 2)
     private PlanetTO vulcanos;
+    @ApiModelProperty(value = "Datos del planeta Ferengis",position = 3)
     private PlanetTO ferengis;
+    @ApiModelProperty(value = "Datos del planeta Betasoides",position = 4)
     private PlanetTO betasoides;
 
     public DayTO() {
@@ -40,7 +54,6 @@ public class DayTO implements Serializable {
         this.vulcanos = vulcanos;
         this.ferengis = ferengis;
         this.betasoides = betasoides;
-        this.maxPerimeter = Boolean.FALSE;
         calculate();
     }
 
@@ -107,14 +120,6 @@ public class DayTO implements Serializable {
         this.betasoides = betasoides;
     }
 
-    public Boolean getMaxPerimeter() {
-        return maxPerimeter;
-    }
-
-    public void setMaxPerimeter(Boolean maxPerimeter) {
-        this.maxPerimeter = maxPerimeter;
-    }
-
 
     /**
      * Para un día calcula la posición de los planetas y calcula el determinante de la matriz que define si se encuentran alineados
@@ -171,7 +176,7 @@ public class DayTO implements Serializable {
 
     public String log() {
         StringBuffer str = new StringBuffer();
-        str.append("\nDay " + this.day + " Weather " + this.weather + " Determinant " + this.determinant + "Perimeter " + this.perimeter + " MaxPerimeter " + this.maxPerimeter);
+        str.append("\nDay " + this.day + " Weather " + this.weather + " Determinant " + this.determinant + "Perimeter " + this.perimeter);
         str.append("\n\t VUL:" + this.vulcanos.log());
         str.append("\n\t FER:" + this.ferengis.log());
         str.append("\n\t BET:" + this.betasoides.log());

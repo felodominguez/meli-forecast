@@ -35,13 +35,13 @@ public class SwaggerConfig {
 	
 	private ApiInfo getApiInfo() {
 		return new ApiInfo(
-				"Order Service API",
-				"Order Service API Description",
+				"Meli Forecast Service API",
+				"Información de la API de servicios de Meli Forecast Service",
 				"1.0",
-				"http://codmind.com/terms",
+				null,
 				new Contact("Felipe Domínguez",null ,"felodominguez@gmail.com"),
-				"LICENSE",
-				"LICENSE URL",
+				null,
+				null,
 				Collections.emptyList()
 				);
 	}

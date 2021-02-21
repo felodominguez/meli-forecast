@@ -1,6 +1,9 @@
 package com.prueba.meli.to;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.decimal4j.util.DoubleRounder;
 
 import java.io.Serializable;
@@ -10,12 +13,21 @@ import java.io.Serializable;
  * Clase que representa los planetas
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel(value = "Información del planeta", description = "Información del planeta")
 public class PlanetTO implements Serializable {
 
+
+    @ApiModelProperty(value = "Ángulo",example = "20")
     private Integer angle;
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Integer sunDistance;
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Integer advance;
+    @ApiModelProperty(value = "Posición eje X",example = "500")
     private Double xPos;
+    @ApiModelProperty(value = "Posición eje Y",example = "0")
     private Double yPos;
 
     public PlanetTO(Integer angle, Integer sunDistance,Integer advance) {

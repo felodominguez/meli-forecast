@@ -1,53 +1,54 @@
 package com.prueba.meli.web;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class AddSchedulerTaskRequest {
 
-    //Angulo inicial de Vulcanos
+public  abstract class GeneralTaskRequest implements Serializable {
+
     @NotNull
+    @ApiModelProperty(value = "Ángulo inicial de Vulcanos",example = "0",required = true)
     Integer initVulcanos;
-    //Angulo inicial de Ferengis
     @NotNull
+    @ApiModelProperty(value = "Ángulo inicial de Ferengis",example = "0",required = true)
     Integer initFerengis;
-    //Angulo inicial de Betasoides
     @NotNull
+    @ApiModelProperty(value = "Ángulo inicial de Betasoides",example = "0",required = true)
     Integer initBetasoides;
-    //Cantidad de años de prediccion
     @NotNull
+    @ApiModelProperty(value = "Cantidad de años a predecir",example = "10",required = true)
     Integer year;
-    //Avamce diario de Vulcanos
     @NotNull
+    @ApiModelProperty(value = "Ángulo de avance diario de Vulcanos",example = "5",required = true)
     Integer avanceVulcanos;
-    //Avance diario de Ferengis
     @NotNull
+    @ApiModelProperty(value = "Ángulo de avance diario de Ferengis",example = "-1",required = true)
     Integer avanceFerengis;
-    //Avance diario de Betasoides
     @NotNull
+    @ApiModelProperty(value = "Ángulo de avance diario de Betasoides",example = "-3",required = true)
     Integer avanceBetasoides;
-    //Distancia entre el Vulcanos y el Sol
     @NotNull
+    @ApiModelProperty(value = "Distancia entre el Sol y Vulcanos",example = "1000",required = true)
     Integer distanceVulcanos;
-    //Distancia entre Ferengis y el Sol
     @NotNull
+    @ApiModelProperty(value = "Distancia entre el Sol y Ferengis",example = "500",required = true)
     Integer distanceFerengis;
-    // Distancia entre el Betasoides y el Sol
     @NotNull
+    @ApiModelProperty(value = "Distancia entre el Sol y Betasoides",example = "2000",required = true)
     Integer distanceBetasoides;
 
-    //Fecha de ejecución de la tarea
-    private LocalDateTime dateTime;
-
-    //Zona horaria de la fecha de ejecución de la tarea
-    private ZoneId timeZone;
-
     //Log de datos
+    @ApiModelProperty(value = "Indica si se escriben los resultados en el log del servidor",example = "true")
     private Boolean logData;
 
 
-    public AddSchedulerTaskRequest() {
+    public GeneralTaskRequest() {
 
     }
 
@@ -131,13 +132,7 @@ public class AddSchedulerTaskRequest {
         this.distanceBetasoides = distanceBetasoides;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
 
     public Boolean getLogData() {
         return logData;
@@ -147,11 +142,7 @@ public class AddSchedulerTaskRequest {
         this.logData = logData;
     }
 
-    public ZoneId getTimeZone() {
-        return timeZone;
-    }
 
-    public void setTimeZone(ZoneId timeZone) {
-        this.timeZone = timeZone;
-    }
+
+
 }

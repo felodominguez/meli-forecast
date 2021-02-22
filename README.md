@@ -64,7 +64,35 @@ La solución cuenta con un componente de tareas programadas para la calendarizac
 * Maven
 * Swagger
 * GIT
-* Postgres
+* Postgres, MySQL o H2 (Desarrollo - Versión instalada)
+
+### Preparación y ejecución en ambiente local.
+####Requisitos:
+
+ Son requisitos tener instaladas y configuradas las siguientes aplicaciones:
+
+* Java JDK
+* GIT
+* Maven
+  
+#### Descarga y despliegue:
+* Descargar el código fuente desde el repositorio
+   + Desde la carpeta destino ejecutar: `git clone https://github.com/felodominguez/meli-forecast.git`
+    
+
+* Opcional: El sistema está configurado para la utilización de H2 como base de datos, en caso de querer utilizar MySql o Postgres modificar el archivo application.properties y completar las siguientes propiedades:
+    + spring.datasource.url
+    + spring.datasource.username
+    + spring.datasource.password
+    
+
+* Compilar y desplegar 
+    + Dentro de la carpeta meli-forecast ejecutar el comando: `mvn spring-boot:run`
+    
+
+* Verificar instalación
+    + Desde una consola ejecutar el comando: `curl "http://localhost:8080/actuator/health" -i -X GET`
+
 
 ### Modo de uso:
 #### Generación de predicciones:

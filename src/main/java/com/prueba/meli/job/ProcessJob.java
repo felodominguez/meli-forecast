@@ -1,9 +1,12 @@
 package com.prueba.meli.job;
 
 import com.prueba.meli.business.Processor;
+import com.prueba.meli.web.AddSchedulerTaskResponse;
+import com.prueba.meli.web.SchedulerStatusResponse;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Component
@@ -58,6 +62,8 @@ public class ProcessJob extends QuartzJobBean {
 
         }
     }
+
+
 
 
 }

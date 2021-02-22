@@ -50,6 +50,9 @@ REST de consulta sobre las condiciones de un día en particular.
 
 ## Descripción de la solución
 
+La solución cuenta con un componente de tareas programadas para la calendarización de la tarea de predicción junto con una API REST para agendar las tareas y consultar las predicciones.
+
+
 ### Supuestos y restricciones:
 * Se asume que un año tiene 360 días.
 * Se asume que todos los años tienen la misma cantidad de días.
@@ -62,10 +65,6 @@ REST de consulta sobre las condiciones de un día en particular.
 * Swagger
 * GIT
 * Postgres
-
-### Solución:
-
-La solución cuenta con un componente de tareas programadas para la calendarización de la tarea de predicción junto con una API REST para agendar las tareas y consultar las predicciones.
 
 ### Modo de uso:
 #### Generación de predicciones:
@@ -110,7 +109,17 @@ Servicio que permite consultar las predicciones climáticas para un día en part
 Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/weather-controller/getDayInfoUsingGET
 
 ---
-#### Modelo de datos de los servicios:
+#### Estado del sistema:
+
+@GET http://meli-forecast.herokuapp.com/actuator/health
+
+
+Servicio que permite ver el estado del sistema. La información que verifica es la siguiente:
+
+* Estado de la base de datos.
+* Estado del almacenamiento.
+* Conectividad con el servidor.
+
 
 ---
 

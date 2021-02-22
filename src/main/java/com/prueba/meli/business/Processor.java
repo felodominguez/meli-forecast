@@ -37,7 +37,7 @@ public class Processor {
      * @return Dias con las predicciones
      * @throws Exception
      */
-    public Map<Long, DayTO> calculate(Integer initVulcanos, Integer initFerengis, Integer initBetasoides, Integer year, Integer avanceVulcanos,
+    public Integer calculate(Integer initVulcanos, Integer initFerengis, Integer initBetasoides, Integer year, Integer avanceVulcanos,
                                       Integer avanceFerengis, Integer avanceBetasoides, Integer distanceVulcanos, Integer distanceFerengis, Integer distanceBetasoides, Boolean logData) throws Exception {
 
         ParametersTO param = new ParametersTO();
@@ -60,10 +60,10 @@ public class Processor {
     /**
      * Carga las configuraciones iniciales de un archivo YAML y calcula todas las predicciones.
      *
-     * @return Dias con las predicciones
+     * @return Cantidad de días calculados
      * @throws Exception
      */
-    public Map<Long, DayTO> calculate() throws Exception {
+    public Integer calculate() throws Exception {
         Yaml yaml = new Yaml();
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("com/prueba/meli/config/start.yml")) {
             ParametersTO param = yaml.loadAs(in, ParametersTO.class);
@@ -78,10 +78,10 @@ public class Processor {
     /**
      * Recibe los parámetros y calcula todas las predicciones.
      *
-     * @return Dias con las predicciones
+     * @return Cantidad de días calculados
      * @throws Exception
      */
-    private Map<Long, DayTO> generateData(ParametersTO param) throws Exception {
+    private Integer generateData(ParametersTO param) throws Exception {
         try {
             logger.info("Start generateData");
             logger.info("Param " + param.toString());
@@ -131,7 +131,7 @@ public class Processor {
             long  fin = new Date().getTime();
             logger.info("Process end in  "+((fin-start)/1000)+" seconds.");
 
-            return diaHash;
+            return diaHash.size();
         } catch (Exception e) {
             logger.error("Error " + e.getMessage(), e);
             throw e;

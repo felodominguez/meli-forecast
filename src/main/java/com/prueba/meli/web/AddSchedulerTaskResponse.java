@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Date;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "Respuesta de la agenda de la tarea.", description = "Respuesta de la agenda de la tarea")
@@ -16,6 +18,9 @@ public class AddSchedulerTaskResponse {
     private String jobGroup;
     @ApiModelProperty(value = "Mensaje descriptivo del resultado.",example = "Tarea agendada con éxito!")
     private String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @ApiModelProperty(value = "Fecha de la tarea")
+    private Date taskDate;
 
     public AddSchedulerTaskResponse(boolean success, String message) {
         this.success = success;
@@ -62,7 +67,13 @@ public class AddSchedulerTaskResponse {
         this.message = message;
     }
 
+    public Date getTaskDate() {
+        return taskDate;
+    }
 
+    public void setTaskDate(Date taskDate) {
+        this.taskDate = taskDate;
+    }
 }
 
 

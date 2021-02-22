@@ -6,11 +6,8 @@ import com.prueba.meli.error.DateOutOfBoundException;
 import com.prueba.meli.error.ErrorResponse;
 import com.prueba.meli.error.RecordNotFoundException;
 import com.prueba.meli.job.ProcessJob;
-import com.prueba.meli.web.GeneralTaskRequest;
-import com.prueba.meli.web.AddSchedulerTaskResponse;
+import com.prueba.meli.web.*;
 import com.prueba.meli.to.DayTO;
-import com.prueba.meli.web.SchedulerTaskRequest;
-import com.prueba.meli.web.TaskRequest;
 import io.swagger.annotations.*;
 import org.quartz.*;
 import org.slf4j.Logger;
@@ -18,10 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
@@ -41,6 +35,11 @@ public class JobController {
 
     @Autowired
     private Processor processor;
+
+    @Autowired
+    private ProcessJob processorJob;
+
+
 
     @ApiOperation(notes = "Servicio para agendar una tarea",produces = "application/json", value = "Servicio para agendar la tarea de predicción")
     @ApiResponses({
@@ -79,15 +78,21 @@ public class JobController {
     @PostMapping("/now")
     @ApiOperation(notes = "Servicio para ejecutar la tarea de predicciones", value = "Servicio que ejecuta la generación de predicciones",produces = "application/json")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = AddSchedulerTaskResponse.class),
+            @ApiResponse(code = 200, message = "Success", response = TaskResponse.class),
             @ApiResponse(code = 400, message = "Parámetros inválidos", response = ErrorResponse.class),
             @ApiResponse(code = 500, message = "Error general", response = ErrorResponse.class)
     })
-    public ResponseEntity<Map<Long, DayTO>> now(
+    public ResponseEntity<TaskResponse> now(
             @ApiParam(name = "Parámetros de predicciones", value = "Parámetros para la generación de las predicciones", required = true)
             @Valid @RequestBody TaskRequest generalTaskRequest) throws Exception {
-      return ResponseEntity.ok(processor.calculate(generalTaskRequest.getInitVulcanos(), generalTaskRequest.getInitFerengis(), generalTaskRequest.getInitBetasoides(), generalTaskRequest.getYear(), generalTaskRequest.getAvanceVulcanos(), generalTaskRequest.getAvanceFerengis(), generalTaskRequest.getAvanceBetasoides(), generalTaskRequest.getDistanceVulcanos(), generalTaskRequest.getDistanceFerengis(), generalTaskRequest.getDistanceBetasoides(), generalTaskRequest.getLogData()));
+        Integer result = processor.calculate(generalTaskRequest.getInitVulcanos(), generalTaskRequest.getInitFerengis(), generalTaskRequest.getInitBetasoides(), generalTaskRequest.getYear(), generalTaskRequest.getAvanceVulcanos(), generalTaskRequest.getAvanceFerengis(), generalTaskRequest.getAvanceBetasoides(), generalTaskRequest.getDistanceVulcanos(), generalTaskRequest.getDistanceFerengis(), generalTaskRequest.getDistanceBetasoides(), generalTaskRequest.getLogData());
+        TaskResponse response = new TaskResponse(true,"Se generaron "+result+" predicciones correctamente.");
+      return ResponseEntity.ok(response);
     }
+
+
+
+
 
     private JobDetail buildJobDetail(GeneralTaskRequest scheduleRequest) {
         JobDataMap jobDataMap = new JobDataMap();

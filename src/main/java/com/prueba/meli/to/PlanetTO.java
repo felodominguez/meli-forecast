@@ -37,11 +37,23 @@ public class PlanetTO implements Serializable {
         this.calculatePosition();
     }
 
+    public PlanetTO(Integer angle, Integer sunDistance, Integer advance, Double xPos, Double yPos) {
+        this.angle = angle;
+        this.sunDistance = sunDistance;
+        this.advance = advance;
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
     public PlanetTO(Integer angle, Integer sunDistance) {
         this.angle = angle;
         this.sunDistance = sunDistance;
 
     }
+
+
+
+
 
     public PlanetTO(Integer angle, Double xPos, Double yPos) {
         this.angle = angle;
@@ -129,6 +141,13 @@ public class PlanetTO implements Serializable {
 
     public String log() {
         return ("Angle:"+this.angle +" Distance:" + this.sunDistance + " X:" + this.xPos + " Y:" + this.yPos);
+    }
+
+    public static PlanetTO nextPosition(long day,PlanetTO last)  {
+        if(day>1){
+            last.calculate();
+        }
+        return new PlanetTO(last.getAngle(),last.getSunDistance(),last.getAdvance(),last.getxPos(),last.getyPos());
     }
 
 }

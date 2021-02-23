@@ -24,25 +24,25 @@ import java.util.ArrayList;
 @ApiModel(value = "Información del día.", description = "Información del día")
 public class DayTO implements Serializable {
 
-    @ApiModelProperty(value = "Día de la predicción",example = "26",position = 0)
+    @ApiModelProperty(value = "Día de la predicción", example = "26", position = 0)
     private Long day;
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Double determinant;
-    @ApiModelProperty(value = "Perímetro (En caso de formar un triángulo)",example = "6262.300354241048",position = 1)
+    @ApiModelProperty(value = "Perímetro (En caso de formar un triángulo)", example = "6262.300354241048", position = 1)
     private Double perimeter;
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Weather weather;
-    @ApiModelProperty(value = "Clima del día",example = "Sequía",position = 1)
+    @ApiModelProperty(value = "Clima del día", example = "Sequía", position = 1)
     private String weatherDesctiption;
 
 
-    @ApiModelProperty(value = "Datos del planeta Vulcano",position = 2)
+    @ApiModelProperty(value = "Datos del planeta Vulcano", position = 2)
     private PlanetTO vulcanos;
-    @ApiModelProperty(value = "Datos del planeta Ferengis",position = 3)
+    @ApiModelProperty(value = "Datos del planeta Ferengis", position = 3)
     private PlanetTO ferengis;
-    @ApiModelProperty(value = "Datos del planeta Betasoides",position = 4)
+    @ApiModelProperty(value = "Datos del planeta Betasoides", position = 4)
     private PlanetTO betasoides;
 
     public DayTO() {
@@ -51,9 +51,11 @@ public class DayTO implements Serializable {
 
     public DayTO(Long day, PlanetTO vulcanos, PlanetTO ferengis, PlanetTO betasoides) {
         this.day = day;
-        this.vulcanos = vulcanos;
-        this.ferengis = ferengis;
-        this.betasoides = betasoides;
+
+        this.vulcanos = PlanetTO.nextPosition(day,vulcanos);
+        this.ferengis = PlanetTO.nextPosition(day,ferengis);
+        this.betasoides = PlanetTO.nextPosition(day,betasoides);
+
         calculate();
     }
 
@@ -66,7 +68,9 @@ public class DayTO implements Serializable {
         this.day = day;
     }
 
-    public Double getDeterminant() { return determinant; }
+    public Double getDeterminant() {
+        return determinant;
+    }
 
     public void setDeterminant(Double determinant) {
         this.determinant = determinant;
@@ -125,11 +129,7 @@ public class DayTO implements Serializable {
      * Para un día calcula la posición de los planetas y calcula el determinante de la matriz que define si se encuentran alineados
      */
     public void calculate() {
-        if (this.day > 1) {
-            this.getVulcanos().calculate();
-            this.getFerengis().calculate();
-            this.getBetasoides().calculate();
-        }
+
         double[][] matrix = {{this.getVulcanos().getxPos(), this.getVulcanos().getyPos(), 1},
                 {this.getFerengis().getxPos(), this.getFerengis().getyPos(), 1},
                 {this.getBetasoides().getxPos(), this.getBetasoides().getyPos(), 1}};
@@ -142,7 +142,7 @@ public class DayTO implements Serializable {
         WeatherUtils.getPerimeter(this);
     }
 
-    public Day toEntity(Planet vulcano,Planet ferengis,Planet betasoides){
+    public Day toEntity(Planet vulcano, Planet ferengis, Planet betasoides) {
         Day dayEnt = new Day();
         dayEnt.setDay(this.day);
         dayEnt.setDeterminant(this.determinant);

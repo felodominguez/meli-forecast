@@ -2,7 +2,7 @@
 
 ### La solución se encuentra desplegada de Heroku bajo la URL:
 
-http://meli-forecast.herokuapp.com/swagger-ui/index.html
+https://meli-forecast-305605.rj.r.appspot.com/swagger-ui/index.html
 
 ## Descripción del problema
 En una galaxia lejana, existen tres civilizaciones. Vulcanos, Ferengis y Betasoides. Cada
@@ -67,7 +67,7 @@ La solución cuenta con un componente de tareas programadas para la calendarizac
 * Postgres, MySQL o H2 (Desarrollo - Versión instalada)
 
 ### Preparación y ejecución en ambiente local.
-####Requisitos:
+#### Requisitos:
 
  Son requisitos tener instaladas y configuradas las siguientes aplicaciones:
 
@@ -98,24 +98,24 @@ La solución cuenta con un componente de tareas programadas para la calendarizac
 #### Generación de predicciones:
 
 ---
-@Post http://meli-forecast.herokuapp.com/scheduler/schedule
+@Post https://meli-forecast-305605.rj.r.appspot.com/scheduler/schedule
 
 Servicio que permite agendar una tarea automática para una fecha y hora determinada. Al momento de la ejecución de la tarea el sistema realizará las predicciones impactando estas en la base de datos de la solución.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/job-controller/scheduleTaskUsingPOST
+Documentación disponible en https://meli-forecast-305605.rj.r.appspot.com/swagger-ui/index.html#/job-controller/scheduleTaskUsingPOST
 
 ---
-@Post http://meli-forecast.herokuapp.com/scheduler/now
+@Post https://meli-forecast-305605.rj.r.appspot.com/scheduler/now
 
 Servicio que permite la ejecución de las predicciones en tiempo real.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/job-controller/nowUsingPOST
+Documentación disponible en https://meli-forecast-305605.rj.r.appspot.com/swagger-ui/index.html#/job-controller/nowUsingPOST
 
 ---
 #### Consulta de datos:
 
 ---
-@GET http://meli-forecast.herokuapp.com/services/days
+@GET https://meli-forecast-305605.rj.r.appspot.com/services/days
 
 
 Servicio que permite consultar los datos obtenidos de las predicciones. La información incluida en la respuesta es la siguiente:
@@ -126,20 +126,20 @@ Servicio que permite consultar los datos obtenidos de las predicciones. La infor
 * Total de dias restantes.
 * Listá de días de máximos de lluvia.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/weather-controller/getWeatherInfoUsingGET
+Documentación disponible en https://meli-forecast-305605.rj.r.appspot.com/swagger-ui/index.html#/weather-controller/getWeatherInfoUsingGET
 
 ---
 
-@GET http://meli-forecast.herokuapp.com/services/day?day=
+@GET https://meli-forecast-305605.rj.r.appspot.com/services/day?day=
 
 Servicio que permite consultar las predicciones climáticas para un día en particular.
 
-Documentación disponible en http://meli-forecast.herokuapp.com/swagger-ui/index.html#/weather-controller/getDayInfoUsingGET
+Documentación disponible en https://meli-forecast-305605.rj.r.appspot.com/swagger-ui/index.html#/weather-controller/getDayInfoUsingGET
 
 ---
 #### Estado del sistema:
 
-@GET http://meli-forecast.herokuapp.com/actuator/health
+@GET https://meli-forecast-305605.rj.r.appspot.com/actuator/health
 
 
 Servicio que permite ver el estado del sistema. La información que verifica es la siguiente:

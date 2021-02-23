@@ -2,6 +2,7 @@ package com.prueba.meli.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.prueba.meli.to.ParametersTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -53,8 +54,21 @@ public class Instance implements Serializable {
     @OneToMany(mappedBy = "instance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Day> dayList;
 
-
     public Instance() {
+    }
+
+    public Instance(ParametersTO param) {
+        this.date=ZonedDateTime.now();
+        this.avanceBetasoides=param.getAvanceBetasoides();
+        this.avanceFerengis=param.getAvanceFerengis();
+        this.avanceVulcanos=param.getAvanceVulcanos();
+        this.distanceBetasoides=param.getDistanceBetasoides();
+        this.distanceFerengis=param.getDistanceFerengis();
+        this.distanceVulcanos=param.getDistanceVulcanos();
+        this.initFerengis=param.getInitFerengis();
+        this.initVulcanos=param.getInitVulcanos();
+        this.initBetasoides=param.getInitBetasoides();
+        this.years=param.getYear();
         this.dayList=new ArrayList<>();
     }
 

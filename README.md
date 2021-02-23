@@ -1,6 +1,6 @@
 # Prueba MELI
 
-### La solución se encuentra desplegada de Heroku bajo la URL:
+### La solución se encuentra desplegada en Google Cloud utilizando Swagger para la documentación de la API
 
 https://meli-forecast-305605.rj.r.appspot.com/swagger-ui/index.html
 

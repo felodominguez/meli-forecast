@@ -162,7 +162,7 @@ For further reference, please consider the following sections:
 * [Spring Web](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#boot-features-developing-web-applications)
 * [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.4.2/reference/htmlsingle/#boot-features-jpa-and-spring-data)
 * [Swagger](https://swagger.io/docs/specification/about/)
-* [Heroku](https://devcenter.heroku.com/categories/reference)
+* [Google Cloud](https://cloud.google.com/docs?hl=es)
   
 
 ### Guías (Inglés)
